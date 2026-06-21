@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el Mejor Papá del Mundo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght=0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090e1a;
+            --gold: #e2b96b;
+            --gold-dark: #b58d3d;
+            --envelope-color: #1e293b;
+            --paper: #faf6ee;
+            --text-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- EFECTO DE PARTÍCULAS / BRILLOS EN EL FONDO --- */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            color: rgba(226, 185, 107, 0.3);
+            font-size: 1rem;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-5vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- CARTEL CINEMÁTICO --- */
+        .premium-poster {
+            width: 100%;
+            max-width: 550px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(226, 185, 107, 0.2);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+        }
+
+        .premium-poster h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            background: linear-gradient(90deg, var(--gold-dark), #fff, var(--gold-dark));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineText 4s linear infinite;
+        }
+
+        @keyframes shineText {
+            to { background-position: 200% center; }
+        }
+
+        .premium-poster p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+
+        /* --- REPRODUCTOR DE AUDIO LOCAL --- */
+        .audio-player-container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(226, 185, 107, 0.3);
+            border-radius: 30px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            z-index: 5;
+        }
+
+        .audio-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        audio {
+            height: 35px;
+            width: 100%;
+        }
+
+        /* --- CONTENEDOR DEL SOBRE --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            height: 250px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .envelope-back {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background-color: var(--envelope-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            z-index: 6;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, opacity 0.3s;
+            overflow: hidden;
+        }
+
+        .envelope-back::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 50%, transparent 50%),
+                        linear-gradient(225deg, rgba(255,255,255,0.02) 50%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .seal-button {
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, #b91c1c 60%, #991b1b 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            border: 2px solid var(--gold);
+        }
+
+        .envelope-title {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* LA CARTA */
+        .letter-paper {
+            position: absolute;
+            bottom: 0;
+            width: 92%;
+            height: 190px;
+            background-color: var(--paper);
+            background-image: linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 100% 24px;
+            border-radius: 8px;
+            padding: 25px 20px;
+            color: #1e293b;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 2;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), height 0.6s ease;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- CUANDO LA CARTA ESTÁ ABIERTA --- */
+        .envelope-wrapper.opened .envelope-back {
+            transform: translateY(40px) scale(0.9);
+            opacity: 0.2;
+        }
+
+        .envelope-wrapper.opened .letter-paper {
+            transform: translateY(-160px);
+            height: 400px;
+            z-index: 999;
+            opacity: 1;
+            pointer-events: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+
+        .hint-click {
+            position: absolute;
+            bottom: -35px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            animation: bounce 1.8s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* --- SECCIÓN DE FRASES --- */
+        .phrases-section {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            margin-bottom: 45px;
+            z-index: 2;
+        }
+
+        .phrases-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .phrases-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .phrase-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(226, 185, 107, 0.2);
+            border-radius: 14px;
+            padding: 22px 20px;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .phrase-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .phrase-card .icon-quote {
+            font-size: 1.5rem;
+            color: var(--gold-dark);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .phrase-card p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        .phrase-card span {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        /* --- CARRUSEL LOCAL MUTIMEDIA --- */
+        .carousel-section {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .carousel-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .carousel-view {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(226, 185, 107, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            background: #070a12;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(9, 14, 26, 0.8);
+            border: none;
+            color: var(--gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .arrow-l { left: 10px; }
+        .arrow-r { right: 10px; }
+
+        @media(max-width: 400px) {
+            .envelope-wrapper { height: 230px; }
+            .envelope-back { height: 180px; }
+            .envelope-wrapper.opened .letter-paper { transform: translateY(-130px); height: 350px; }
+            .carousel-view { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CAPA CON LLUVIA DE BRILLOS -->
+    <div id="particles-container"></div>
+
+    <!-- CARTEL DE BIENVENIDA -->
+    <div class="premium-poster">
+        <h1>Feliz Día del Padre</h1>
+        <p>Un pequeño espacio digital con mucho cariño</p>
+    </div>
+
+    <!-- AUDIO REPRODUCTOR LOCAL -->
+    <div class="audio-player-container">
+        <div class="audio-label">🎵 REPRODUCTOR DE AUDIO</div>
+        <!-- Cambia 'cancion.mp3' por tu archivo local si cambias el nombre -->
+        <audio id="audio" controls src="cancion.mp3"></audio>
+    </div>
+
+    <!-- CONTENEDOR DEL SOBRE -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        
+        <div class="envelope-back" id="mainEnvelope">
+            <div class="seal-button">👑</div>
+            <div class="envelope-title">Toca para abrir</div>
+        </div>
+        
+        <!-- La carta manuscrita -->
+        <div class="letter-paper" id="letterPaper">
+            <p>Feliz dia del padre, no sé como comenzar esto, a lo mejor preferias una a mano pero aparte de que me da flojera, me es más fácil por este medió, solo quiero decirte agradecerte por todo lo que haces por nosotros, que aúnque discutamos siempre lo arreglamos y tenemos una buena relación padre e hijo. No tuve la oportunidad de comprarte un regalo ya que la verdad se me olvidó cuando era este día, pero dame una semana y te lo doy, es que igual eres bien difícil con los regalos, uno ya no sabe ni que darte, solo lo básico que son los bombones de chocolate jaja. Te quiero mucho pa, gracias por todo, eres el mejor y enserio me alegra que me hayas tocado tú como padre, se que no soy el mejor hijo pero intento serlo y demostrarte a ti y a mi mamá lo mucho que los quiero y que haria cualquier cosa por ustedes como ustedes por mi ❤️‍🩹</p>
+            
+            <button onclick="closeLetter(event)" style="margin-top: 25px; width: 100%; padding: 12px; background: #1e293b; color: #e2b96b; border: 1px solid rgba(226, 185, 107, 0.3); border-radius: 8px; font-weight: bold; font-size: 0.9rem; letter-spacing: 1px; cursor: pointer; text-transform: uppercase;">Guardar Carta</button>
+        </div>
+        
+        <div class="hint-click" id="hint">Presiona el sobre</div>
+    </div>
+
+    <!-- SECCIÓN DE FRASES -->
+    <div class="phrases-section">
+        <h2>Grandes Pensamientos</h2>
+        <div class="phrases-grid">
+            <div class="phrase-card">
+                <div class="icon-quote">“</div>
+                <p>Un buen padre vale por cien maestros.</p>
+                <span>— Jean-Jacques Rousseau</span>
+            </div>
+            <div class="phrase-card">
+                <div class="icon-quote">“</div>
+                <p>El corazón de un padre es la obra maestra de la naturaleza.</p>
+                <span>— Antoine François Prévost</span>
+            </div>
+            <div class="phrase-card">
+                <div class="icon-quote">“</div>
+                <p>No es la carne ni la sangre, sino el corazón lo que nos hace padres e hijos.</p>
+                <span>— Friedrich Schiller</span>
+            </div>
+            <div class="phrase-card">
+                <div class="icon-quote">“</div>
+                <p>Mi padre no me dijo cómo vivir; vivió y me dejó ver cómo lo hacía.</p>
+                <span>— Clarence Budington Kelland</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM LOCAL (MUESTRA TUS FOTOS Y VIDEO AUTOMÁTICAMENTE) -->
+    <div class="carousel-section">
+        <h2>Álbum de Recuerdos</h2>
+        <div class="carousel-view">
+            <button class="nav-arrow arrow-l" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="nav-arrow arrow-r" onclick="moveSlide(1)">&#10095;</button>
+            <div class="carousel-track" id="track">
+                
+                <div class="carousel-item">
+                    <img src="foto1.jpg" alt="Foto 1">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="foto2.jpg" alt="Foto 2">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="foto3.jpg" alt="Foto 3">
+                </div>
+
+                <!-- Tu video se reproduce aquí mismo al final -->
+                <div class="carousel-item">
+                    <video src="video.mp4" controls playsinline></video>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('envelopeWrapper');
+        const mainEnvelope = document.getElementById('mainEnvelope');
+        const hint = document.getElementById('hint');
+
+        function openLetter() {
+            wrapper.classList.add('opened');
+            hint.innerText = "Usa el botón de la carta para cerrar";
+        }
+
+        function closeLetter(event) {
+            event.stopPropagation();
+            wrapper.classList.remove('opened');
+            hint.innerText = "Presiona el sobre";
+        }
+
+        mainEnvelope.addEventListener('click', openLetter);
+        mainEnvelope.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            openLetter();
+        });
+
+        // Lógica del Carrusel Local (4 elementos)
+        let currentIdx = 0;
+        const track = document.getElementById('track');
+        function moveSlide(dir) {
+            currentIdx += dir;
+            if (currentIdx >= 4) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = 3;
+            track.style.transform = `translateX(-${currentIdx * 100}%)`;
+        }
+
+        // Partículas de fondo
+        const container = document.getElementById('particles-container');
+        const symbols = ['✨', '❤️', '•'];
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDelay = `${Math.random() * 8}s`;
+            particle.style.fontSize = `${Math.random() * 0.6 + 0.6}rem`;
+            container.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
